@@ -40,7 +40,7 @@ if __name__ == '__main__':
             
         stored_opt.external_embedding = options.external_embedding
         
-        print 'Loading pre-trained joint learner'
+        print 'Loading pre-trained joint model'
         parser = learner.jPosDepLearner(words, pos, rels, w2i, c2i, stored_opt)
         parser.Load(options.model)
         
@@ -52,20 +52,19 @@ if __name__ == '__main__':
         print 'Finished in', te-ts, 'seconds.'
         utils.write_conll(tespath, test_res)
 
-        conllu = (os.path.splitext(options.conll_test.lower())[1] == '.conllu')
-        if not conllu:#Scored with punctuation
-            os.system('perl utils/eval07.pl -q -g ' + options.conll_test + ' -s ' + tespath  + ' > ' + tespath + '.scores.txt')
-        else:
-            os.system('python utils/evaluation_script/conll17_ud_eval.py -v -w utils/evaluation_script/weights.clas ' + options.conll_test + ' ' + tespath + ' > ' + tespath + '.scores.txt')
+        #conllu = (os.path.splitext(options.conll_test.lower())[1] == '.conllu')
+        #if not conllu:#Scored with punctuation
+        #    os.system('perl utils/eval07.pl -q -g ' + options.conll_test + ' -s ' + tespath  + ' > ' + tespath + '.scores.txt')
+        #else:
+        #    os.system('python utils/evaluation_script/conll17_ud_eval.py -v -w utils/evaluation_script/weights.clas ' + options.conll_test + ' ' + tespath + ' > ' + tespath + '.scores.txt')
     else:
-        print 'Preparing vocab'
+        print 'Extracting vocabulary'
         words, w2i, c2i, pos, rels = utils.vocab(options.conll_train)
         
         with open(os.path.join(options.output, options.params), 'w') as paramsfp:
             pickle.dump((words, w2i, c2i, pos, rels, options), paramsfp)
-        print 'Finished collecting vocab'
-
-        print 'Initializing joint learner'
+        
+        print 'Initializing joint model'
         parser = learner.jPosDepLearner(words, pos, rels, w2i, c2i, options)
         
         highestScore = 0.0
