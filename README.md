@@ -60,7 +60,9 @@ will produce model files `trialmodel` and `trialmodel.params` in folder `SOURCE_
 
 ### Use a pre-trained model
 
-Assume that you are going to utilize a pre-trained model for annotating  a corpus whose _each line represents a tokenized/word-segmented sentence_. You  should use `converter.py` in folder `SOURCE_DIR/utils`  to obtain a 10-column data format of this corpus:
+Pre-trained joint models for *universal* POS tagging and dependency parsing for 40+ languages can be found here: [https://drive.google.com/drive/folders/0B5eBgc8jrKtpdWpaeV9XM2ttenc](https://drive.google.com/drive/folders/0B5eBgc8jrKtpdWpaeV9XM2ttenc). These models are trained with default hyper-parameters, using the dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) v2.0. 
+
+Assume that you are going to utilize a pre-trained model for annotating a corpus whose _each line represents a tokenized/word-segmented sentence_. You  should use `converter.py` in folder `SOURCE_DIR/utils`  to obtain a 10-column data format of this corpus:
 
     SOURCE_DIR$ python utils/converter.py <file-path>
 
@@ -86,7 +88,7 @@ For example:
     python jPTDP.py --predict --model sample/trialmodel --params sample/trialmodel.params --test sample/test.conllu --outdir sample/ --output test.conllu.pred
     python jPTDP.py --predict --model sample/trialmodel --params sample/trialmodel.params --test sample/dev.conllu --outdir sample/ --output dev.conllu.pred
     
-will produce files `test.conllu.pred` and `dev.conllu.pred` in folder `SOURCE_DIR/sample`.
+will produce output files `test.conllu.pred` and `dev.conllu.pred` in folder `SOURCE_DIR/sample`.
 
 ### Acknowledgments
 jPTDP code is based on the implementations of Plank et al. (2016)'s POS tagger and Kiperwasser and Goldberg (2016b)'s graph-based dependency parser. I would like to thank Plank et al. (2016) and Kiperwasser and Goldberg (2016b) for making their codes available.
