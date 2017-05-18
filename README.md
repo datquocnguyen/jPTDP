@@ -5,9 +5,9 @@ The implementation of the jPTDP model, as described in my paper:
     @article{jPTDP2017,
     author={Dat Quoc Nguyen and Mark Dras and Mark Johnson},
     title={{A Novel Neural Network Model for Joint POS Tagging and Graph-based Dependency Parsing}},
-    journal={arXiv preprint arXiv:1705.xxxxx},
+    journal={arXiv preprint arXiv:1705.05952},
     year={2017}
-    url={}
+    url={https://arxiv.org/abs/1705.05952}
     }
 
 Please cite the paper above when jPTDP is used to produce published results or incorporated into other software. I would highly appreciate to have your bug reports, comments and suggestions about jPTDP. As a free open-source implementation, jPTDP is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ __To train a joint model for POS tagging and dependency parsing, you perform:__
 
 where hyper-parameters in [] are optional:
 
- * `--dynet-mem`: Specify DyNet memory in MB. Default value is 512.
+ * `--dynet-mem`: Specify DyNet memory in MB.
  * `--epochs`: Specify number of traning epochs. Default value is 30.
  * `--lstmdims`: Specify number of BiLSTM dimensions. Default value is 128.
  * `--lstmlayers`: Specify number of BiLSTM layers. Default value is 2.
@@ -58,9 +58,10 @@ __For example:__
     
 will produce model files `trialmodel` and `trialmodel.params` in folder `SOURCE_DIR/sample`.
 
-### Use a pre-trained model
+### Utilize a pre-trained model
 
-Pre-trained joint models for *universal* POS tagging and dependency parsing for 40+ languages can be found here: [https://drive.google.com/drive/folders/0B5eBgc8jrKtpdWpaeV9XM2ttenc](https://drive.google.com/drive/folders/0B5eBgc8jrKtpdWpaeV9XM2ttenc). These models are trained with default hyper-parameters, using the dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) v2.0. 
+Pre-trained joint models for *universal* POS tagging and dependency parsing for 40+ languages can be found at   [__HERE__](https://drive.google.com/drive/folders/0B5eBgc8jrKtpdWpaeV9XM2ttenc). These models are trained with the default hyper-parameters, using the dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) [v2.0](http://hdl.handle.net/11234/1-1983). 
+
 
 Assume that you are going to utilize a pre-trained model for annotating a corpus whose _each line represents a tokenized/word-segmented sentence_. You  should use `converter.py` in folder `SOURCE_DIR/utils`  to obtain a 10-column data format of this corpus:
 
@@ -85,8 +86,8 @@ __To utilize a pre-trained model for POS tagging and dependency parsing, you per
 
 For example: 
 
-    python jPTDP.py --predict --model sample/trialmodel --params sample/trialmodel.params --test sample/test.conllu --outdir sample/ --output test.conllu.pred
-    python jPTDP.py --predict --model sample/trialmodel --params sample/trialmodel.params --test sample/dev.conllu --outdir sample/ --output dev.conllu.pred
+    SOURCE_DIR$ python jPTDP.py --predict --model sample/trialmodel --params sample/trialmodel.params --test sample/test.conllu --outdir sample/ --output test.conllu.pred
+    SOURCE_DIR$ python jPTDP.py --predict --model sample/trialmodel --params sample/trialmodel.params --test sample/dev.conllu --outdir sample/ --output dev.conllu.pred
     
 will produce output files `test.conllu.pred` and `dev.conllu.pred` in folder `SOURCE_DIR/sample`.
 
