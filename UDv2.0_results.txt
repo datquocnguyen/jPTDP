@@ -8,7 +8,6 @@ gold-standard segmentation on the UD v2.0 test sets (CoNLL 2017 shared task test
     UD_Arabic                | ar            | 95.18 | 84.16 | 77.82 
     UD_Basque                | eu            | 93.15 | 77.86 | 72.56 
     UD_Bulgarian             | bg            | 97.49 | 88.53 | 84.20 
-    UD_Buryat                | bxr           | 43.21 | 28.79 | 14.04 
     UD_Catalan               | ca            | 98.10 | 88.62 | 85.59 
     UD_Chinese               | zh            | 92.36 | 78.57 | 72.99 
     UD_Croatian              | hr            | 96.19 | 85.46 | 79.32 
@@ -38,16 +37,13 @@ gold-standard segmentation on the UD v2.0 test sets (CoNLL 2017 shared task test
     UD_Indonesian            | id            | 93.10 | 83.41 | 76.84 
     UD_Irish                 | ga            | 88.35 | 73.43 | 62.24 
     UD_Italian               | it            | 97.62 | 90.28 | 87.26 
-    UD_Italian-ParTUT        | it_partut     |  0.00 |  0.00 |  0.00 
     UD_Japanese              | ja            | 96.56 | 94.07 | 92.41 
     UD_Kazakh                | kk            | 51.11 | 44.25 | 22.91 
     UD_Korean                | ko            | 93.47 | 79.89 | 74.75 
-    UD_Kurmanji              | kmr           | 47.72 | 31.59 | 18.79 
     UD_Latin                 | la            | 83.26 | 57.79 | 44.60 
     UD_Latin-ITTB            | la_ittb       | 97.44 | 78.81 | 74.65 
     UD_Latin-PROIEL          | la_proiel     | 94.23 | 71.75 | 64.78 
     UD_Latvian               | lv            | 90.27 | 69.28 | 61.50 
-    UD_North_Sami            | sme           | 33.12 | 22.80 |  8.23 
     UD_Norwegian-Bokmaal     | no_bokmaal    | 97.43 | 88.25 | 85.33 
     UD_Norwegian-Nynorsk     | no_nynorsk    | 97.07 | 86.30 | 83.12 
     UD_Old_Church_Slavonic   | cu            | 92.81 | 81.96 | 73.22 
@@ -67,7 +63,6 @@ gold-standard segmentation on the UD v2.0 test sets (CoNLL 2017 shared task test
     UD_Swedish-LinES         | sv_lines      | 94.73 | 81.52 | 76.19 
     UD_Turkish               | tr            | 93.42 | 67.39 | 59.14 
     UD_Ukrainian             | uk            | 88.09 | 71.03 | 61.03 
-    UD_Upper_Sorbian         | hsb           | 51.13 | 29.88 | 17.06 
     UD_Urdu                  | ur            | 92.96 | 86.05 | 79.27 
     UD_Uyghur                | ug            | 72.49 | 57.79 | 39.48 
     UD_Vietnamese            | vi            | 86.78 | 64.88 | 55.63 
