@@ -17,7 +17,7 @@ Please cite the paper above when jPTDP is used to produce published results or i
 jPTDP requires the following software packages:
 
 * `Python 2.7`
-* [`DyNet` library](http://dynet.readthedocs.io/en/latest/python.html#detailed-instructions)
+* [`DyNet` library v1.1 branch](https://github.com/clab/dynet/tree/v1.1)
 
 Once you installed the prerequisite packages above, you can clone or download (and then unzip) jPTDP. Next sections show jPTDP instructions to train a new joint model for POS tagging and dependency parsing, and then to utilize pre-trained models.
 
