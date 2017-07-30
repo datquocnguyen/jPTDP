@@ -2,12 +2,13 @@
 
 The implementation of the jPTDP model, as described in my paper:
 
-    @article{jPTDP2017,
-    author={Dat Quoc Nguyen and Mark Dras and Mark Johnson},
-    title={{A Novel Neural Network Model for Joint POS Tagging and Graph-based Dependency Parsing}},
-    journal={arXiv preprint arXiv:1705.05952},
-    year={2017}
-    url={https://arxiv.org/abs/1705.05952}
+    @InProceedings{nguyen-dras-johnson-2017,
+      author    = {Nguyen, Dat Quoc  and  Dras, Mark  and  Johnson, Mark},
+      title     = {{A Novel Neural Network Model for Joint POS Tagging and Graph-based Dependency Parsing}},
+      booktitle = {Proceedings of the CoNLL 2017 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies},
+      year      = {2017},
+      pages     = {134--142},
+      url       = {http://www.aclweb.org/anthology/K17-3014}
     }
 
 Please cite the paper above when jPTDP is used to produce published results or incorporated into other software. I would highly appreciate to have your bug reports, comments and suggestions about jPTDP. As a free open-source implementation, jPTDP is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +19,10 @@ jPTDP requires the following software packages:
 
 * `Python 2.7`
 * [`DyNet` library v1.1 branch](https://github.com/clab/dynet/tree/v1.1)
+    
+    apt-get install libboost-all-dev
+    
+    pip install git+https://github.com/clab/dynet@v1.1#egg=dynet
 
 Once you installed the prerequisite packages above, you can clone or download (and then unzip) jPTDP. Next sections show jPTDP instructions to train a new joint model for POS tagging and dependency parsing, and then to utilize pre-trained models.
 
@@ -36,7 +41,7 @@ will generate two new files for training: `train.conllu.ux2xu` and `dev.conllu.u
 
 __To train a joint model for POS tagging and dependency parsing, you perform:__
 
-    SOURCE_DIR$ python jPTDP.py --dynet-seed 123456789 [--dynet-mem <int>] [--epochs <int>] [--lstmdims <int>] [--lstmlayers <int>] [--wembedding <int>] [--cembedding <int>] --model <String> --params <String> --outdir <path-to-output-directory> --train <path-to-train-file>  [--dev <path-to-dev-file>]
+    SOURCE_DIR$ python jPTDP.py --dynet-seed 123456789 [--dynet-mem <int>] [--epochs <int>] [--lstmdims <int>] [--lstmlayers <int>] [--wembedding <int>] [--cembedding <int>] [--model <String>] [--params <String>] --outdir <path-to-output-directory> --train <path-to-train-file>  [--dev <path-to-dev-file>]
 
 where hyper-parameters in [] are optional:
 
