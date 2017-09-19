@@ -10,7 +10,7 @@ from mnnl import FFSequencePredictor, Layer, RNNSequencePredictor, BiRNNSequence
 
 class jPosDepLearner:
     def __init__(self, vocab, pos, rels, w2i, c2i, options):
-        self.model = Model()
+        self.model = ParameterCollection()
         random.seed(1)
         self.trainer = AdamTrainer(self.model)
         #self.trainer = SimpleSGDTrainer(self.model)
@@ -96,7 +96,7 @@ class jPosDepLearner:
             self.routLayer = self.model.add_parameters((len(self.irels), self.hidden2_units if self.hidden2_units > 0 else self.hidden_units))
             self.routBias = self.model.add_parameters((len(self.irels)))
         
-        self.char_rnn = RNNSequencePredictor(dynet.LSTMBuilder(1, self.cdims, self.cdims, self.model))
+        self.char_rnn = RNNSequencePredictor(LSTMBuilder(1, self.cdims, self.cdims, self.model))
 
     def  __getExpr(self, sentence, i, j, train):
 
@@ -141,7 +141,7 @@ class jPosDepLearner:
 
 
     def Load(self, filename):
-        self.model.load(filename)
+        self.model.populate(filename)
 
 
     def Predict(self, conll_path):
@@ -363,5 +363,5 @@ class jPosDepLearner:
 
             renew_cg()
 
-        self.trainer.update_epoch()
+        self.trainer.update()
         print "Loss: %.2f" % (mloss/iSentence)

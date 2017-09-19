@@ -18,11 +18,7 @@ Please cite the paper above when jPTDP is used to produce published results or i
 jPTDP requires the following software packages:
 
 * `Python 2.7`
-* [`DyNet` library v1.1 branch](https://github.com/clab/dynet/tree/v1.1)
-    
-    apt-get install libboost-all-dev
-    
-    pip install git+https://github.com/clab/dynet@v1.1#egg=dynet
+* [`DyNet` version 2.0](http://dynet.readthedocs.io/en/latest/python.html)
 
 Once you installed the prerequisite packages above, you can clone or download (and then unzip) jPTDP. Next sections show jPTDP instructions to train a new joint model for POS tagging and dependency parsing, and then to utilize pre-trained models.
 
@@ -64,9 +60,6 @@ __For example:__
 will produce model files `trialmodel` and `trialmodel.params` in folder `SOURCE_DIR/sample`.
 
 ### Utilize a pre-trained model
-
-Pre-trained joint models for *universal* POS tagging and dependency parsing for 40+ languages can be found at   [__HERE__](https://drive.google.com/drive/folders/0B5eBgc8jrKtpdWpaeV9XM2ttenc). These models are trained with the default hyper-parameters, using the dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) [v2.0](http://hdl.handle.net/11234/1-1983). 
-
 
 Assume that you are going to utilize a pre-trained model for annotating a corpus whose _each line represents a tokenized/word-segmented sentence_. You  should use `converter.py` in folder `SOURCE_DIR/utils`  to obtain a 10-column data format of this corpus:
 
