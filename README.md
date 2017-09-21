@@ -61,6 +61,8 @@ will produce model files `trialmodel` and `trialmodel.params` in folder `SOURCE_
 
 ### Utilize a pre-trained model
 
+Pre-trained joint models for *universal* POS tagging and dependency parsing to 40+ languages can be found at   [__HERE__](https://drive.google.com/drive/folders/0B5eBgc8jrKtpTXhfRmpKbUEtdlE?usp=sharing). The pre-trained models are learned with default hyper-parameters, using dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) [v2.0](http://hdl.handle.net/11234/1-1983). 
+
 Assume that you are going to utilize a pre-trained model for annotating a corpus whose _each line represents a tokenized/word-segmented sentence_. You  should use `converter.py` in folder `SOURCE_DIR/utils`  to obtain a 10-column data format of this corpus:
 
     SOURCE_DIR$ python utils/converter.py <file-path>
