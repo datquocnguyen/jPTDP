@@ -8,8 +8,8 @@ class ConllEntry:
         self.id = id
         self.form = form
         self.norm = normalize(form)
-        self.xpos = xpos.upper()
-        self.pos = pos.upper()
+        self.xpos = xpos 
+        self.pos = pos 
         self.parent_id = parent_id
         self.relation = relation
 

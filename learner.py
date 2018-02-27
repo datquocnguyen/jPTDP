@@ -13,7 +13,9 @@ class jPosDepLearner:
         self.model = ParameterCollection()
         random.seed(1)
         self.trainer = AdamTrainer(self.model)
-        #self.trainer = SimpleSGDTrainer(self.model)
+        if options.learning_rate is not None:
+            self.trainer = AdamTrainer(self.model, alpha=options.learning_rate)
+            print("Adam initial learning rate: ", options.learning_rate)
         self.activations = {'tanh': tanh, 'sigmoid': logistic, 'relu': rectify, 'tanh3': (lambda x: tanh(cwise_multiply(cwise_multiply(x, x), x)))}
         self.activation = self.activations[options.activation]
 
