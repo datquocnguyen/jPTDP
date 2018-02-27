@@ -129,3 +129,24 @@ numberRegex = re.compile("[0-9]+|[0-9]+\\.[0-9]+|[0-9]+[0-9,]+");
 def normalize(word):
     return 'NUM' if numberRegex.match(word) else word.lower()
 
+def load_embeddings_file(file_name, sep=" ",lower=False):
+    """
+    load embeddings file
+    """
+    emb={}
+    print("Load pre-trained word embeddings:{}".format(file_name))
+    with open(file_name) as infile:
+        for line in infile:
+            try:
+                fields = line.strip().split(sep)
+                vec = [float(x) for x in fields[1:]]
+                word = fields[0]
+                if lower:
+                    word = word.lower()
+                emb[word] = vec
+            except ValueError:
+                print("Error converting: {}".format(line))
+
+    #print("Pre-trained vocab size: {} (lower: {}), embedding-size: {}".format(len(emb.keys()), lower,len(emb[word])))
+    return emb, len(emb[word])
+

@@ -1,7 +1,7 @@
 # coding=utf-8
 from dynet import *
 import dynet
-from utils import read_conll, write_conll
+from utils import read_conll, write_conll, load_embeddings_file
 from operator import itemgetter
 import utils, time, random, decoder
 import numpy as np
@@ -15,7 +15,7 @@ class jPosDepLearner:
         self.trainer = AdamTrainer(self.model)
         if options.learning_rate is not None:
             self.trainer = AdamTrainer(self.model, alpha=options.learning_rate)
-            print("Adam initial learning rate: ", options.learning_rate)
+            #print("Adam initial learning rate: ", options.learning_rate)
         self.activations = {'tanh': tanh, 'sigmoid': logistic, 'relu': rectify, 'tanh3': (lambda x: tanh(cwise_multiply(cwise_multiply(x, x), x)))}
         self.activation = self.activations[options.activation]
 
@@ -36,47 +36,35 @@ class jPosDepLearner:
         self.rels = {word: ind for ind, word in enumerate(rels)}
         self.irels = rels
 
-
-        self.external_embedding, self.edim = None, 0
+        self.vocab['*PAD*'] = 1
+        self.vocab['*INITIAL*'] = 2
+        self.wlookup = self.model.add_lookup_parameters((len(vocab) + 3, self.wdims))
+        self.clookup = self.model.add_lookup_parameters((len(c2i), self.cdims))
+        
         if options.external_embedding is not None:
-            external_embedding_fp = open(options.external_embedding,'r')
-            external_embedding_fp.readline()
-            self.external_embedding = {line.split(' ')[0] : [float(f) for f in line.strip().split(' ')[1:]] for line in external_embedding_fp}
-            external_embedding_fp.close()
+            ext_embeddings, ext_emb_dim = load_embeddings_file(options.external_embedding, lower=True)
+            assert(ext_emb_dim==self.wdims)
+            for word in ext_embeddings.keys():
+                if word in self.vocab.keys():
+                    self.wlookup.init_row(self.vocab[word], ext_embeddings[word])
 
-            self.edim = len(self.external_embedding.values()[0])
-            self.noextrn = [0.0 for _ in xrange(self.edim)]
-            self.extrnd = {word: i + 3 for i, word in enumerate(self.external_embedding)}
-            self.elookup = self.model.add_lookup_parameters((len(self.external_embedding) + 3, self.edim))
-            for word, i in self.extrnd.iteritems():
-                self.elookup.init_row(i, self.external_embedding[word])
-            self.extrnd['*PAD*'] = 1
-            self.extrnd['*INITIAL*'] = 2
-
-            print 'Load external embedding. Vector dimensions', self.edim
 
         if self.bibiFlag:
-            self.builders = [VanillaLSTMBuilder(1, self.wdims + self.edim + self.cdims * 2, self.ldims, self.model),
-                             VanillaLSTMBuilder(1, self.wdims + self.edim + self.cdims * 2, self.ldims, self.model)]
+            self.builders = [VanillaLSTMBuilder(1, self.wdims + self.cdims * 2, self.ldims, self.model),
+                             VanillaLSTMBuilder(1, self.wdims + self.cdims * 2, self.ldims, self.model)]
             self.bbuilders = [VanillaLSTMBuilder(1, self.ldims * 2, self.ldims, self.model),
                               VanillaLSTMBuilder(1, self.ldims * 2, self.ldims, self.model)]
         elif self.layers > 0:
-            self.builders = [VanillaLSTMBuilder(self.layers, self.wdims + self.edim, self.ldims, self.model),
-                             VanillaLSTMBuilder(self.layers, self.wdims + self.edim, self.ldims, self.model)]
+            self.builders = [VanillaLSTMBuilder(self.layers, self.wdims, self.ldims, self.model),
+                             VanillaLSTMBuilder(self.layers, self.wdims, self.ldims, self.model)]
         else:
-            self.builders = [SimpleRNNBuilder(1, self.wdims + self.edim + self.cdims * 2, self.ldims, self.model),
-                             SimpleRNNBuilder(1, self.wdims + self.edim + self.cdims * 2, self.ldims, self.model)]
+            self.builders = [SimpleRNNBuilder(1, self.wdims + self.cdims * 2, self.ldims, self.model),
+                             SimpleRNNBuilder(1, self.wdims + self.cdims * 2, self.ldims, self.model)]
             
         self.ffSeqPredictor = FFSequencePredictor(Layer(self.model, self.ldims*2, len(self.pos), softmax))    
 
         self.hidden_units = options.hidden_units
         self.hidden2_units = options.hidden2_units
-
-        self.vocab['*PAD*'] = 1
-        self.vocab['*INITIAL*'] = 2
-
-        self.wlookup = self.model.add_lookup_parameters((len(vocab) + 3, self.wdims))
-        self.clookup = self.model.add_lookup_parameters((len(c2i), self.cdims))
 
         self.hidLayerFOH = self.model.add_parameters((self.hidden_units, self.ldims * 2))
         self.hidLayerFOM = self.model.add_parameters((self.hidden_units, self.ldims * 2))
@@ -153,12 +141,11 @@ class jPosDepLearner:
 
                 for entry in conll_sentence:
                     wordvec = self.wlookup[int(self.vocab.get(entry.norm, 0))] if self.wdims > 0 else None
-                    evec = self.elookup[int(self.extrnd.get(entry.form, self.extrnd.get(entry.norm, 0)))] if self.external_embedding is not None else None
-                    
+                
                     last_state = self.char_rnn.predict_sequence([self.clookup[c] for c in entry.idChars])[-1]
                     rev_last_state = self.char_rnn.predict_sequence([self.clookup[c] for c in reversed(entry.idChars)])[-1]
                       
-                    entry.vec = concatenate(filter(None, [wordvec, evec, last_state, rev_last_state]))
+                    entry.vec = concatenate(filter(None, [wordvec, last_state, rev_last_state]))
 
                     entry.lstms = [entry.vec, entry.vec]
                     entry.headfov = None
@@ -265,16 +252,11 @@ class jPosDepLearner:
                     c = float(self.wordsCount.get(entry.norm, 0))
                     dropFlag = (random.random() < (c/(0.25+c)))
                     wordvec = self.wlookup[int(self.vocab.get(entry.norm, 0)) if dropFlag else 0] if self.wdims > 0 else None
-                    evec = None
-
-                    if self.external_embedding is not None:
-                        evec = self.elookup[self.extrnd.get(entry.form, self.extrnd.get(entry.norm, 0)) if (dropFlag or (random.random() < 0.5)) else 0]
-                    #entry.vec = concatenate(filter(None, [wordvec, evec]))
                     
                     last_state = self.char_rnn.predict_sequence([self.clookup[c] for c in entry.idChars])[-1]
                     rev_last_state = self.char_rnn.predict_sequence([self.clookup[c] for c in reversed(entry.idChars)])[-1]
                     
-                    entry.vec = concatenate([dynet.noise(fe,0.2) for fe in filter(None, [wordvec, evec, last_state, rev_last_state])])
+                    entry.vec = concatenate([dynet.noise(fe,0.2) for fe in filter(None, [wordvec, last_state, rev_last_state])])
                     
                     entry.lstms = [entry.vec, entry.vec]
                     entry.headfov = None
