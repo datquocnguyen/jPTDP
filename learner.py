@@ -44,8 +44,8 @@ class jPosDepLearner:
         if options.external_embedding is not None:
             ext_embeddings, ext_emb_dim = load_embeddings_file(options.external_embedding, lower=True)
             assert(ext_emb_dim==self.wdims)
-            for word in ext_embeddings.keys():
-                if word in self.vocab.keys():
+            for word in self.vocab.keys():
+                if word in ext_embeddings.keys():
                     self.wlookup.init_row(self.vocab[word], ext_embeddings[word])
 
 
