@@ -143,7 +143,8 @@ def load_embeddings_file(file_name, sep=" ",lower=False):
                 word = fields[0]
                 if lower:
                     word = word.lower()
-                emb[word] = vec
+                if word not in emb:
+                	emb[word] = vec
             except ValueError:
                 print("Error converting: {}".format(line))
 

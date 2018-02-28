@@ -37,7 +37,7 @@ will generate two new files for training: `train.conllu.ux2xu` and `dev.conllu.u
 
 __To train a joint model for POS tagging and dependency parsing, you perform:__
 
-    SOURCE_DIR$ python jPTDP.py --dynet-seed 123456789 [--dynet-mem <int>] [--epochs <int>] [--lstmdims <int>] [--lstmlayers <int>] [--wembedding <int>] [--cembedding <int>] [--extrn <path-to-pre-trained-word-embedding-file>] [--model <String>] [--params <String>] --outdir <path-to-output-directory> --train <path-to-train-file>  [--dev <path-to-dev-file>]
+    SOURCE_DIR$ python jPTDP.py --dynet-seed 123456789 [--dynet-mem <int>] [--epochs <int>] [--lstmdims <int>] [--lstmlayers <int>] [--wembedding <int>] [--cembedding <int>] [--extrn <path-to-pre-trained-word-embedding-file>] [--lr <float>] [--model <String>] [--params <String>] --outdir <path-to-output-directory> --train <path-to-train-file>  [--dev <path-to-dev-file>]
 
 where hyper-parameters in [] are optional:
 
@@ -48,6 +48,7 @@ where hyper-parameters in [] are optional:
  * `--wembedding`: Specify size of word embeddings. Default value is 128.
  * `--cembedding`: Specify size of character embeddings. Default value is 64.
  * `--extrn`: Specify path to the pre-trained word embedding file for initialization. Default value is "None" (i.e. word embeddings are randomly initialized).
+ * `--lr`: Specifiy an initial learning rate for Adam optimizer. Default value is set by DyNet at 0.001.
  * `--model`: Specify a  name for model parameters file. Default value is "model".
  * `--params`: Specify a  name for model hyper-parameters file. Default value is "model.params".
  * `--outdir`: Specify path to directory where the trained model will be saved. 
@@ -62,7 +63,7 @@ will produce model files `trialmodel` and `trialmodel.params` in folder `SOURCE_
 
 ### Utilize a pre-trained model
 
-Pre-trained joint models for *universal* POS tagging and dependency parsing to 40+ languages can be found at   [__HERE__](https://drive.google.com/drive/folders/0B5eBgc8jrKtpTXhfRmpKbUEtdlE?usp=sharing). The pre-trained models are learned with **default** hyper-parameters, using dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) [v2.0](http://hdl.handle.net/11234/1-1983). 
+Pre-trained joint models for *universal* POS tagging and dependency parsing to 40+ languages can be found at   [__HERE__](https://drive.google.com/drive/folders/0B5eBgc8jrKtpTXhfRmpKbUEtdlE?usp=sharing). The pre-trained models are learned with **DEFAULT** hyper-parameters, using dependency treebanks from [the Universal Dependencies project](http://universaldependencies.org/) [v2.0](http://hdl.handle.net/11234/1-1983). It is likely that using pre-trained word embeddings for initialization and performing a grid search of hyper-parameters (e.g. varying the initial learning rate in {0.0002, 0.0005, 0.001, 0.002, 0.005}) would help return better results.
 
 Assume that you are going to utilize a pre-trained model for annotating a corpus whose _each line represents a tokenized/word-segmented sentence_. You  should use `converter.py` in folder `SOURCE_DIR/utils`  to obtain a 10-column data format of this corpus:
 
