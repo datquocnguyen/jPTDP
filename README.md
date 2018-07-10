@@ -18,7 +18,7 @@ Once you installed the prerequisite packages above, you can clone or download (a
 
 ### Train a joint model 
 
-Suppose that `SOURCE_DIR` is simply used to denote the source code directory. Similar to files `train.conllu` and `dev.conllu` in folder `SOURCE_DIR/sample` or treebanks in the [Universal Dependencies project](http://universaldependencies.org/), the training (and development) data is formatted following 10-column data format. See details at [http://universaldependencies.org/format.html](http://universaldependencies.org/format.html). For training, jPTDP will only use information from columns 1 (ID), 2 (FORM), 4 (Coarse-grained POS tags---UPOSTAG), 7 (HEAD) and 8 (DEPREL). 
+Suppose that `SOURCE_DIR` is simply used to denote the source code directory. Similar to files `train.conllu` and `dev.conllu` in folder `SOURCE_DIR/sample` or treebanks in the [Universal Dependencies (UD) project](http://universaldependencies.org/), the training and development files are formatted following 10-column data format. For training, jPTDP will only use information from columns 1 (ID), 2 (FORM), 4 (Coarse-grained POS tags---UPOSTAG), 7 (HEAD) and 8 (DEPREL). 
 
 If you would like to use the fine-grained language-specific POS tags in the 5th column instead of the coarse-grained POS tags in the 4th column, you should use `swapper.py` in folder `SOURCE_DIR/utils` to swap contents in the 4th and 5th columns:
 
@@ -91,7 +91,7 @@ will produce output files `test.conllu.pred` and `dev.conllu.pred` in folder `SO
 
 ### Pre-trained models
 
-Pre-trained jPTDP v2.0 models which are detailed in paper [1] can be found at [__HERE__](https://drive.google.com/drive/folders/1my2w3zf4BPSX18QpfY1QhgeEcm_auS3h?usp=sharing). 
+Pre-trained jPTDP v2.0 models, which were trained on English WSJ Penn treebank and UD treebanks, can be found at [__HERE__](https://drive.google.com/drive/folders/1my2w3zf4BPSX18QpfY1QhgeEcm_auS3h?usp=sharing).  Results on test sets (as detailed in paper [1]) are as follows:
 
   Treebank                       | Model name      | POS   | UAS   | LAS 
   ------------------------------ | --------------- | ----  | ----  | ----
