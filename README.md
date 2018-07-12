@@ -2,10 +2,10 @@
 
 Implementations of joint models for  POS tagging and dependency parsing, as described in my papers:
   
-  1. Dat Quoc Nguyen and Karin Verspoor. **2018**. [An improved neural network model for joint POS tagging and dependency parsing](). In *Proceedings of the CoNLL 2018 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, to appear. (**jPTDP v2.0**)
+  1. Dat Quoc Nguyen and Karin Verspoor. **2018**. [An improved neural network model for joint POS tagging and dependency parsing](http://arxiv.org/abs/1807.03955). In *Proceedings of the CoNLL 2018 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, to appear. (**jPTDP v2.0**)
   2. Dat Quoc Nguyen, Mark Dras and Mark Johnson. **2017**. [A Novel Neural Network Model for Joint POS Tagging and Graph-based Dependency Parsing](http://www.aclweb.org/anthology/K17-3014). In *Proceedings of the CoNLL 2017 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, pages 134-142. [[.bib]](http://www.aclweb.org/anthology/K17-3014.bib)  (**jPTDP v1.0**)
 
-This github project currently supports jPTDP v2.0 while v1.0 can be found in the [release](https://github.com/datquocnguyen/jPTDP/releases) section. Please **cite** the corresponding paper when jPTDP v2.0/v1.0 is used to produce published results or incorporated into other software. I would highly appreciate to have your bug reports, comments and suggestions about jPTDP. As a free open-source implementation, jPTDP is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+This github project currently supports jPTDP v2.0, while v1.0 can be found in the [release](https://github.com/datquocnguyen/jPTDP/releases) section. Please **cite** the corresponding paper when jPTDP is used to produce published results or incorporated into other software. I would highly appreciate to have your bug reports, comments and suggestions about jPTDP. As a free open-source implementation, jPTDP is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
 ### Installation
 
@@ -20,16 +20,6 @@ Once you installed the prerequisite packages above, you can clone or download (a
 
 Suppose that `SOURCE_DIR` is simply used to denote the source code directory. Similar to files `train.conllu` and `dev.conllu` in folder `SOURCE_DIR/sample` or treebanks in the [Universal Dependencies (UD) project](http://universaldependencies.org/), the training and development files are formatted following 10-column data format. For training, jPTDP will only use information from columns 1 (ID), 2 (FORM), 4 (Coarse-grained POS tags---UPOSTAG), 7 (HEAD) and 8 (DEPREL). 
 
-If you would like to use the fine-grained language-specific POS tags in the 5th column instead of the coarse-grained POS tags in the 4th column, you should use `swapper.py` in folder `SOURCE_DIR/utils` to swap contents in the 4th and 5th columns:
-
-    SOURCE_DIR$ python utils/swapper.py <path-to-train-(and-dev)-file>
-    
-For example:
-    
-    SOURCE_DIR$ python utils/swapper.py sample/train.conllu
-    SOURCE_DIR$ python utils/swapper.py sample/dev.conllu
-
-will generate two new files for training: `train.conllu.ux2xu` and `dev.conllu.ux2xu` in folder `SOURCE_DIR/sample`.
 
 __To train a joint model for POS tagging and dependency parsing, you perform:__
 
@@ -58,6 +48,17 @@ __For example:__
     SOURCE_DIR$ python jPTDP.py --dynet-seed 123456789 --dynet-mem 1000 --epochs 30 --lstmdims 128 --lstmlayers 2 --hidden 100 --wembedding 100 --cembedding 50 --pembedding 100  --model trialmodel --params trialmodel.params --outdir sample/ --train sample/train.conllu --dev sample/dev.conllu
     
 will produce model files `trialmodel` and `trialmodel.params` in folder `SOURCE_DIR/sample`. 
+
+If you would like to use the fine-grained language-specific POS tags in the 5th column instead of the coarse-grained POS tags in the 4th column, you should use `swapper.py` in folder `SOURCE_DIR/utils` to swap contents in the 4th and 5th columns:
+
+    SOURCE_DIR$ python utils/swapper.py <path-to-train-(and-dev)-file>
+    
+For example:
+    
+    SOURCE_DIR$ python utils/swapper.py sample/train.conllu
+    SOURCE_DIR$ python utils/swapper.py sample/dev.conllu
+
+will generate two new files for training: `train.conllu.ux2xu` and `dev.conllu.ux2xu` in folder `SOURCE_DIR/sample`.
 
 ### Utilize a pre-trained model
 
@@ -91,7 +92,7 @@ will produce output files `test.conllu.pred` and `dev.conllu.pred` in folder `SO
 
 ### Pre-trained models
 
-Pre-trained jPTDP v2.0 models, which were trained on English WSJ Penn treebank and UD treebanks, can be found at [__HERE__](https://drive.google.com/drive/folders/1my2w3zf4BPSX18QpfY1QhgeEcm_auS3h?usp=sharing).  Results on test sets (as detailed in paper [1]) are as follows:
+Pre-trained jPTDP v2.0 models, which were trained on English WSJ Penn treebank and UD v2.2 treebanks, can be found at [__HERE__](https://drive.google.com/drive/folders/1my2w3zf4BPSX18QpfY1QhgeEcm_auS3h?usp=sharing).  Results on test sets (as detailed in paper [1]) are as follows:
 
   Treebank                       | Model name      | POS   | UAS   | LAS 
   ------------------------------ | --------------- | ----  | ----  | ----
