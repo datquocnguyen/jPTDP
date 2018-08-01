@@ -1,7 +1,7 @@
 # coding=utf-8
 from dynet import *
 import dynet
-from utils import read_conll, write_conll, load_embeddings_file
+from utils import read_conll, read_conll_predict, write_conll, load_embeddings_file
 from operator import itemgetter
 import utils, time, random, decoder
 import numpy as np
@@ -147,7 +147,7 @@ class jPosDepLearner:
 
     def Predict(self, conll_path):
         with open(conll_path, 'r') as conllFP:
-            for iSentence, sentence in enumerate(read_conll(conllFP, self.c2i)):
+            for iSentence, sentence in enumerate(read_conll_predict(conllFP, self.c2i, self.wordsCount)):
                 conll_sentence = [entry for entry in sentence if isinstance(entry, utils.ConllEntry)]
 
                 for entry in conll_sentence:

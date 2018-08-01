@@ -1,6 +1,6 @@
 # coding=utf-8
 from collections import Counter
-import os, re, codecs
+import os, re, codecs, string
 
 
 class ConllEntry:
@@ -141,6 +141,72 @@ def read_conll(fh, c2i):
     if len(tokens) > 1:
         yield tokens
 
+#puncts = re.compile("^[\\\!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$")
+brackets = {"-lrb-" : "(", "-rrb-" : ")", "-lsb-" : "[", "-rsb-" : "]", "-lcb-" : "{", "-rcb-" : "}"}
+def read_conll_predict(fh, c2i, wordsCount):
+    # Character vocabulary
+    root = ConllEntry(0, '*root*', '*root*', 'ROOT-POS', 'ROOT-CPOS', '_', -1, 'rroot', '_', '_')
+    root.idChars = [1, 2]
+    tokens = [root]
+
+    brackets_train = {} 
+    for word in wordsCount:
+    	if word in brackets:
+    		brackets_train[brackets[word]] = word
+
+    for line in fh:
+        tok = line.strip().split('\t')
+        if not tok or line.strip() == '':
+            if len(tokens) > 1: yield tokens
+            tokens = [root]
+        else:
+            if line[0] == '#' or '-' in tok[0] or '.' in tok[0]:
+                tokens.append(line.strip())
+            else:
+                entry = ConllEntry(int(tok[0]), tok[1], tok[2], tok[3], tok[4], tok[5],
+                                   int(tok[6]) if tok[6] != '_' else -1, tok[7], tok[8], tok[9])
+
+                if entry.norm == 'NUM':
+                    entry.idChars = [1, 3, 2]
+                elif entry.norm == 'EMAIL':
+                    entry.idChars = [1, 4, 2]
+                elif entry.norm == 'URL':
+                    entry.idChars = [1, 5, 2]
+                else:
+                    if entry.norm == "”" or entry.norm == "’":
+                        tok[1] = "''"
+                        entry.norm = '"'
+                    if entry.norm == "“" or entry.norm == "‘":
+                        tok[1] = "``"
+                        entry.norm = '"'
+                    if "’" in entry.norm:
+                        entry.norm = re.sub(r"’", "'", entry.norm)
+                        tok[1] = entry.norm
+                    if entry.norm == "—":
+                        entry.norm = "-"
+                        tok[1] = "-"
+
+                    if entry.norm in brackets:
+                    	entry.norm = brackets[entry.norm]
+                    	tok[1] = entry.norm
+                    if entry.norm in brackets_train:
+                    	entry.norm = brackets_train[entry.norm]
+                    	tok[1] = str(entry.norm).upper()
+
+                    chars_of_word = [1]
+                    for char in tok[1]:
+                        if char in c2i:
+                            chars_of_word.append(c2i[char])
+                        else:
+                            chars_of_word.append(0)
+                    chars_of_word.append(2)
+                    entry.idChars = chars_of_word
+
+                tokens.append(entry)
+
+    if len(tokens) > 1:
+        yield tokens
+
 
 def write_conll(fn, conll_gen):
     with open(fn, 'w') as fh:
@@ -149,7 +215,7 @@ def write_conll(fn, conll_gen):
                 fh.write(str(entry) + '\n')
             fh.write('\n')
 
-numberRegex = re.compile("[0-9]+|[0-9]+\\.[0-9]+|[0-9]+[0-9,]+");
+numberRegex = re.compile("[0-9]+|[0-9]+\\.[0-9]+|[0-9]+[0-9,]+")
 def normalize(word):
     if numberRegex.match(word):
         return 'NUM'
