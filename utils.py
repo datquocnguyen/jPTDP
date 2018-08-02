@@ -114,19 +114,6 @@ def read_conll(fh, c2i):
                 elif entry.norm == 'URL':
                     entry.idChars = [1, 5, 2]
                 else:
-                    if entry.norm == "”" or entry.norm == "’":
-                        tok[1] = "''"
-                        entry.norm = '"'
-                    if entry.norm == "“" or entry.norm == "‘":
-                        tok[1] = "``"
-                        entry.norm = '"'
-                    if "’" in entry.norm:
-                        entry.norm = re.sub(r"’", "'", entry.norm)
-                        tok[1] = entry.norm
-                    if entry.norm == "—":
-                        entry.norm = "-"
-                        tok[1] = "-"
-                        
                     chars_of_word = [1]
                     for char in tok[1]:
                         if char in c2i:
