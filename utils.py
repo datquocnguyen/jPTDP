@@ -129,7 +129,7 @@ def read_conll(fh, c2i):
         yield tokens
 
 #puncts = re.compile("^[\\\!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$")
-brackets = {"-lrb-" : "(", "-rrb-" : ")", "-lsb-" : "[", "-rsb-" : "]", "-lcb-" : "{", "-rcb-" : "}"}
+brackets = {"-lrb-" : "(", "-rrb-" : ")", "-lsb-" : "[", "-rsb-" : "]", "-lcb-" : "{", "-rcb-" : "}", "&lt;" : "<", "&gt;" : ">", "&amp;" : "&"}
 def read_conll_predict(fh, c2i, wordsCount):
     # Character vocabulary
     root = ConllEntry(0, '*root*', '*root*', 'ROOT-POS', 'ROOT-CPOS', '_', -1, 'rroot', '_', '_')
@@ -179,6 +179,8 @@ def read_conll_predict(fh, c2i, wordsCount):
                     if entry.norm in brackets_train:
                     	entry.norm = brackets_train[entry.norm]
                     	tok[1] = str(entry.norm).upper()
+                        if tok[1] in ["&lt;", "&gt;", "&amp;"]:
+                            tok[1] = tok[1].lower()
 
                     chars_of_word = [1]
                     for char in tok[1]:
