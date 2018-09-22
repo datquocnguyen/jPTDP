@@ -12,7 +12,12 @@ This github project currently supports jPTDP v2.0, while v1.0 can be found in th
 jPTDP requires the following software packages:
 
 * `Python 2.7`
-* [`DyNet` v2.0](http://dynet.readthedocs.io/en/latest/python.html): `pip install dynet`
+* [`DyNet` v2.0](http://dynet.readthedocs.io/en/latest/python.html)
+
+      $ virtualenv -p python2.7 .DyNet
+      $ source .DyNet/bin/activate
+      $ pip install cython numpy
+      $ pip install dynet==2.0.3
 
 Once you installed the prerequisite packages above, you can clone or download (and then unzip) jPTDP. Next sections show instructions to train a new joint model for POS tagging and dependency parsing, and then to utilize a pre-trained model.
 
@@ -92,7 +97,7 @@ will produce output files `test.conllu.pred` and `dev.conllu.pred` in folder `SO
 
 ### Pre-trained models
 
-Pre-trained jPTDP v2.0 models, which were trained on English WSJ Penn treebank and UD v2.2 treebanks, can be found at [__HERE__](https://drive.google.com/drive/folders/1my2w3zf4BPSX18QpfY1QhgeEcm_auS3h?usp=sharing).  Results on test sets (as detailed in paper [1]) are as follows:
+Pre-trained jPTDP v2.0 models, which were trained on English WSJ Penn treebank, GENIA and UD v2.2 treebanks, can be found at [__HERE__](https://drive.google.com/drive/folders/1my2w3zf4BPSX18QpfY1QhgeEcm_auS3h?usp=sharing).  Results on test sets (as detailed in paper [1]) are as follows:
 
   Treebank                       | Model name      | POS   | UAS   | LAS 
   ------------------------------ | --------------- | ----  | ----  | ----
