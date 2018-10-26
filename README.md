@@ -2,7 +2,7 @@
 
 Implementations of joint models for  POS tagging and dependency parsing, as described in my papers:
   
-  1. Dat Quoc Nguyen and Karin Verspoor. **2018**. [An improved neural network model for joint POS tagging and dependency parsing](http://arxiv.org/abs/1807.03955). In *Proceedings of the CoNLL 2018 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, to appear. (**jPTDP v2.0**)
+  1. Dat Quoc Nguyen and Karin Verspoor. **2018**. [An improved neural network model for joint POS tagging and dependency parsing](http://www.aclweb.org/anthology/K18-2008). In *Proceedings of the CoNLL 2018 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, pages 81-91. [[.bib]](http://www.aclweb.org/anthology/K18-2008.bib) (**jPTDP v2.0**)
   2. Dat Quoc Nguyen, Mark Dras and Mark Johnson. **2017**. [A Novel Neural Network Model for Joint POS Tagging and Graph-based Dependency Parsing](http://www.aclweb.org/anthology/K17-3014). In *Proceedings of the CoNLL 2017 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, pages 134-142. [[.bib]](http://www.aclweb.org/anthology/K17-3014.bib)  (**jPTDP v1.0**)
 
 This github project currently supports jPTDP v2.0, while v1.0 can be found in the [release](https://github.com/datquocnguyen/jPTDP/releases) section. Please **cite** paper [1] when jPTDP is used to produce published results or incorporated into other software. I would highly appreciate to have your bug reports, comments and suggestions about jPTDP. As a free open-source implementation, jPTDP is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
