@@ -1,5 +1,8 @@
 # Neural Network Models for Joint POS Tagging and Dependency Parsing 
 
+<img width="750" alt="jptdpv2" src="https://user-images.githubusercontent.com/2412555/48745055-ef25b500-ecbd-11e8-8f83-7160e42e61f7.png">
+
+
 Implementations of joint models for  POS tagging and dependency parsing, as described in my papers:
   
   1. Dat Quoc Nguyen and Karin Verspoor. **2018**. [An improved neural network model for joint POS tagging and dependency parsing](http://www.aclweb.org/anthology/K18-2008). In *Proceedings of the CoNLL 2018 Shared Task: Multilingual Parsing from Raw Text to Universal Dependencies*, pages 81-91. [[.bib]](http://www.aclweb.org/anthology/K18-2008.bib) (**jPTDP v2.0**)
