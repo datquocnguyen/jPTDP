@@ -24,6 +24,8 @@ jPTDP requires the following software packages:
 
 Once you installed the prerequisite packages above, you can clone or download (and then unzip) jPTDP. Next sections show instructions to train a new joint model for POS tagging and dependency parsing, and then to utilize a pre-trained model.
 
+**NOTE:** [jPTDP is also ported to run with Python 3.4+ by Santiago Castro](https://github.com/bryant1410/jPTDP/tree/python3). Also note that _pre-trained models I provide in the last section would not work with this ported version_  ([see a discussion](https://github.com/datquocnguyen/jPTDP/pull/3#issuecomment-423718383)).   Thus, you may want to retrain jPTDP if using this ported version.
+
 ### Train a joint model 
 
 Suppose that `SOURCE_DIR` is simply used to denote the source code directory. Similar to files `train.conllu` and `dev.conllu` in folder `SOURCE_DIR/sample` or treebanks in the [Universal Dependencies (UD) project](http://universaldependencies.org/), the training and development files are formatted following 10-column data format. For training, jPTDP will only use information from columns 1 (ID), 2 (FORM), 4 (Coarse-grained POS tags---UPOSTAG), 7 (HEAD) and 8 (DEPREL). 
